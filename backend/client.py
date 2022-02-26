@@ -1,7 +1,7 @@
 from http import client
 import socket
 
-from server import DISCONNECT_MESSAGE
+from backend.server import DISCONNECT_MESSAGE
 
 HEADER = 64
 PORT = 5050

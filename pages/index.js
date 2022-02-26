@@ -11,6 +11,7 @@ export default function Home() {
   const [armed, setArmed] = useState()
   const [users, setUsers] = useState([])
   const [doorlog, setDoorLog] = useState()
+  const [loggedIn, setLoggedIn] = useState(false)
 
   const armSystem = () => {
     socket.emit('armSystem')
@@ -48,48 +49,68 @@ export default function Home() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <main className={styles.main}>
-        <h1>{id}</h1>
-        <button style={{ backgroundColor: `${armed ? 'hsl(340deg 100% 32%)' : 'green'}` }} onClick={() => armSystem()} className={styles.pushable}>
-          <span className={styles.shadow}></span>
-          <span className={styles.edge}></span>
-          <span style={{ backgroundColor: `${armed ? 'red' : 'hsl(119deg 100% 32%)'}` }} className={styles.front}>
-            {armed ? 'Arm System' : 'Disarm System'}
-          </span>
-        </button>
+        {
+          loggedIn ?
+            <>
+              <h1>{id}</h1>
+              <button style={{ backgroundColor: `${armed ? 'hsl(340deg 100% 32%)' : 'green'}` }} onClick={() => armSystem()} className={styles.pushable}>
+                <span className={styles.shadow}></span>
+                <span className={styles.edge}></span>
+                <span style={{ backgroundColor: `${armed ? 'red' : 'hsl(119deg 100% 32%)'}` }} className={styles.front}>
+                  {armed ? 'Arm System' : 'Disarm System'}
+                </span>
+              </button>
 
-        <button style={{ backgroundColor: `hsla(176, 38%, 70%)`, margin: 25 }} className={styles.pushable}>
-          <span className={styles.shadow}></span>
-          <span className={styles.edge}></span>
-          <span style={{ backgroundColor: 'lightblue' }} className={styles.front}>
-            Send Ping
-          </span>
-        </button>
+              <button style={{ backgroundColor: `hsla(176, 38%, 70%)`, margin: 25 }} className={styles.pushable}>
+                <span className={styles.shadow}></span>
+                <span className={styles.edge}></span>
+                <span style={{ backgroundColor: 'lightblue' }} className={styles.front}>
+                  Send Ping
+                </span>
+              </button>
 
-        <div className={styles.grid} style={{ marginTop: 100 }}>
-          <button style={{
-            position: 'relative', left: 80, top: -120, borderRadius: 100, border: 'none', color: 'blue', padding: 5,
-          }}>Clear Logs</button>
-          <div className={styles.card} style={{ overflowY: 'scroll' }}>
-            <h4>Door Log</h4>
-            <ul style={{ padding: 0, listStyleType: 'none' }}>
-              {
-                doorlog?.map((test, i) => (
-                  <li key={i} style={{ marginBottom: 10 }}>
-                    System <span>{test.armed ? <b>armed</b> : <b>disarmed</b>}</span> by {test.id} ({test.time})
-                  </li>
-                ))
-              }
-            </ul>
-          </div>
+              <div className={styles.grid} style={{ marginTop: 100 }}>
+                <button style={{
+                  position: 'relative', left: 80, top: -120, borderRadius: 100, border: 'none', color: 'blue', padding: 5,
+                }}>Clear Logs</button>
+                <div className={styles.card} style={{ overflowY: 'scroll' }}>
+                  <h4>Door Log</h4>
+                  <ul style={{ padding: 0, listStyleType: 'none' }}>
+                    {
+                      doorlog?.map((test, i) => (
+                        <li key={i} style={{ marginBottom: 10 }}>
+                          System <span>{test.armed ? <b>armed</b> : <b>disarmed</b>}</span> by {test.id} ({test.time})
+                        </li>
+                      ))
+                    }
+                  </ul>
+                </div>
 
-          <div className={styles.card} >
-            <h4>Users Online</h4>
-            <ul style={{ padding: 0, listStyleType: 'none' }}>
-              {users.map((test, i) => <li key={i}>{test}</li>)}
-            </ul>
-          </div>
-        </div>
-
+                <div className={styles.card} >
+                  <h4>Users Online</h4>
+                  <ul style={{ padding: 0, listStyleType: 'none' }}>
+                    {users.map((test, i) => <li key={i}>{test}</li>)}
+                  </ul>
+                </div>
+              </div>
+            </>
+            :
+            <div>
+              <form id="form">
+                <h3>Name</h3>
+                <input style={{ padding: 10 }} type="text" />
+                <h3>Room #</h3>
+                <input style={{ padding: 10, marginBottom: 40 }} type="number" />
+              </form>
+              <button style={{ backgroundColor: `hsla(248, 33%, 59%)` }} onClick={() => setLoggedIn(!loggedIn)} className={styles.pushable}>
+                <span className={styles.shadow}></span>
+                <span className={styles.edge}></span>
+                <span style={{ backgroundColor: 'hsla(248, 33%, 59%)' }} className={styles.front}>
+                  Login
+                </span>
+              </button>
+            </div>
+        }
       </main >
     </div >
   )

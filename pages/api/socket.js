@@ -32,13 +32,13 @@ const SocketHandler = (req, res) => {
         io.emit('armedSystem', armed)
       })
       socket.on('disconnect', () => {
-        // console.log(id)
         users = users.filter((items) => items !== socket.id)
         io.emit('getUsers', users)
       })
     })
   }
   res.end()
+
 }
 
 export default SocketHandler

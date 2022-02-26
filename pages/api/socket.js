@@ -2,7 +2,7 @@ import { Server } from 'Socket.IO'
 
 const SocketHandler = (req, res) => {
 
-  const users = []
+  let users = []
   let armed = false
 
   if (res.socket.server.io) {
@@ -16,10 +16,17 @@ const SocketHandler = (req, res) => {
       if (!users.includes(socket.id)) {
         users.push(socket.id)
         socket.emit('updateId', socket.id)
+        socket.emit('armedSystem', armed)
+        io.emit('getUsers', users)
       }
       socket.on('armSystem', () => {
         armed = !armed
         io.emit('armedSystem', armed)
+      })
+      socket.on('disconnect', () => {
+        console.log(socket.id)
+        users = users.filter((items) => items !== socket.id)
+        io.emit('getUsers', users)
       })
     })
   }

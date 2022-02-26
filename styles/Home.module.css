@@ -78,6 +78,9 @@
   padding: 1.5rem;
   text-align: left;
   color: inherit;
+  height: 250px; 
+  width: 250px;
+  overflow-y: scroll;
   text-decoration: none;
   border: 1px solid #eaeaea;
   border-radius: 10px;
@@ -117,6 +120,13 @@
     cursor: pointer;
     outline-offset: 4px;
     transition: filter 250ms;
+    -webkit-touch-callout:none;
+-webkit-user-select:none;
+-khtml-user-select:none;
+-moz-user-select:none;
+-ms-user-select:none;
+user-select:none;
+-webkit-tap-highlight-color:rgba(0,0,0,0);
   }
   .shadow {
     position: absolute;

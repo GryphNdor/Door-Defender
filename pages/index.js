@@ -10,6 +10,7 @@ export default function Home() {
   const [id, setId] = useState()
   const [armed, setArmed] = useState()
   const [users, setUsers] = useState([])
+  const [doorlog, setDoorLog] = useState()
 
   const armSystem = () => {
     socket.emit('armSystem')
@@ -33,6 +34,10 @@ export default function Home() {
     socket.on('getUsers', (msg) => {
       setUsers(msg)
     })
+    socket.on('getDoorLog', (msg) => {
+      // console.log(msg)
+      setDoorLog(msg)
+    })
   }
 
   return (
@@ -43,7 +48,7 @@ export default function Home() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <main className={styles.main}>
-        <h1>{id} has joined</h1>
+        <h1>{id}</h1>
         <button style={{ backgroundColor: `${armed ? 'hsl(340deg 100% 32%)' : 'green'}` }} onClick={() => armSystem()} className={styles.pushable}>
           <span className={styles.shadow}></span>
           <span className={styles.edge}></span>
@@ -52,14 +57,32 @@ export default function Home() {
           </span>
         </button>
 
-        <div className={styles.grid}>
+        <button style={{ backgroundColor: `hsla(176, 38%, 70%)`, margin: 25 }} className={styles.pushable}>
+          <span className={styles.shadow}></span>
+          <span className={styles.edge}></span>
+          <span style={{ backgroundColor: 'lightblue' }} className={styles.front}>
+            Send Ping
+          </span>
+        </button>
 
-
-          <div className={styles.card} style={{ marginTop: 100 }}>
+        <div className={styles.grid} style={{ marginTop: 100 }}>
+          <button style={{
+            position: 'relative', left: 80, top: -120, borderRadius: 100, border: 'none', color: 'blue', padding: 5,
+          }}>Clear Logs</button>
+          <div className={styles.card} style={{ overflowY: 'scroll' }}>
             <h4>Door Log</h4>
+            <ul style={{ padding: 0, listStyleType: 'none' }}>
+              {
+                doorlog?.map((test, i) => (
+                  <li key={i} style={{ marginBottom: 10 }}>
+                    System <span>{test.armed ? <b>armed</b> : <b>disarmed</b>}</span> by {test.id} ({test.time})
+                  </li>
+                ))
+              }
+            </ul>
           </div>
 
-          <div className={styles.card} style={{ marginTop: 100 }}>
+          <div className={styles.card} >
             <h4>Users Online</h4>
             <ul style={{ padding: 0, listStyleType: 'none' }}>
               {users.map((test, i) => <li key={i}>{test}</li>)}
@@ -67,7 +90,7 @@ export default function Home() {
           </div>
         </div>
 
-      </main>
-    </div>
+      </main >
+    </div >
   )
 }

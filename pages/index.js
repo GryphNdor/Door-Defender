@@ -5,18 +5,17 @@ import styles from '../styles/Index.module.css'
 import Link from 'next/link'
 
 export default function home() {
-  const small = useMediaQuery('(max-width:600px)')
 
   return (
     <div>
-      <Grid container alignItems="center" flexDirection={small ? "column" : "row"} justifyContent="space-evenly" style={{ backgroundColor: '#384270', color: 'white', height: '100vh' }}>
+      <Grid container alignItems="center" justifyContent="space-evenly" style={{ backgroundColor: '#384270', color: 'white', height: '100vh' }}>
         <Grid item>
-          <h1 style={{ fontSize: small ? '3em' : '6em', width: small ? 400 : 800 }}>
+          <h1 style={{ fontSize: '6em', width: 800 }}>
             Keeping your room safe and secure
           </h1>
         </Grid>
         <Grid item>
-          <Image width={500} height={500} src="/image 1.svg" />
+          <Image width={500} height={500} src="/image 1.svg" alt="mascot" />
         </Grid>
       </Grid>
       {/* lolol it works bruh */}
@@ -38,7 +37,7 @@ export default function home() {
             </p>
           </div>
           <div>
-            <Image src="/vision 1 1.jpg" className={styles.rounded} width={500} height={400} objectFit="cover" />
+            <Image src="/vision 1 1.jpg" className={styles.rounded} width={500} height={400} objectFit="cover" alt="our team" />
           </div>
         </div>
       </section>
@@ -60,7 +59,7 @@ export default function home() {
           </Button>
         </div>
         <div>
-          <Image width={600} height={600} className={styles.rounded} src="/20220226_174333.jpg" />
+          <Image width={600} height={600} alt="door defender" className={styles.rounded} src="/20220226_174333.jpg" />
         </div>
       </section >
     </div >

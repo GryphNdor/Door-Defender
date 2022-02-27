@@ -26,8 +26,8 @@ export default function Layout({ children }) {
       <AppBar style={{ backgroundColor: 'white', color: 'black' }}>
         <Toolbar>
 
-          <Link href="/" style={{ cursor: 'pointer' }}>
-            <Image width={50} height={50} src="/logo.svg" />
+          <Link href="/index" style={{ cursor: 'pointer' }} passHref>
+            <Image width={50} height={50} src="/logo.svg" alt="logo" />
           </Link>
           <Typography variant="h5" component="div" style={{ fontWeight: 700 }} sx={{ flexGrow: 1, mr: 2 }}>
             Door Defender

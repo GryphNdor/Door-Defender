@@ -38,9 +38,7 @@ export default function home() {
             </p>
           </div>
           <div>
-            <Grid item>
-              <h4>Help</h4>
-            </Grid>
+            <Image src="/vision 1 1.jpg" className={styles.rounded} width={500} height={400} objectFit="cover" />
           </div>
         </div>
       </section>
@@ -61,7 +59,7 @@ export default function home() {
           </Button>
         </div>
         <div>
-          <Image width={500} height={500} src="/door defender2 1.svg" />
+          <Image width={600} height={600} className={styles.rounded} src="/20220226_174333.jpg" />
         </div>
       </section >
     </div >

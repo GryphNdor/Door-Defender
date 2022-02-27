@@ -60,6 +60,11 @@ export default function Home() {
       // console.log(msg)
       setDoorLog(msg)
     })
+    socket.on('updateDoor', () => {
+      if (armed) {
+        sendMessage()
+      }
+    })
   }
 
   return (
@@ -98,11 +103,16 @@ export default function Home() {
                   <h4>Door Log</h4>
                   <ul style={{ padding: 0, listStyleType: 'none' }}>
                     {
-                      doorlog?.map((test, i) => (
-                        <li key={i} style={{ marginBottom: 10 }}>
-                          System <span>{test.armed ? <b>armed</b> : <b>disarmed</b>}</span> by {test.id} ({test.time})
-                        </li>
-                      ))
+                      doorlog?.map((test, i) => {
+                        return test.id === "Security Door" ?
+                          <li key={i} style={{ marginBottom: 10 }}>
+                            Door has been {test.data} at {test.time}
+                          </li>
+                          :
+                          <li key={i} style={{ marginBottom: 10 }}>
+                            System <span>{test.armed ? <b>armed</b> : <b>disarmed</b>}</span> by {test.id} ({test.time})
+                          </li>
+                      })
                     }
                   </ul>
                 </div>

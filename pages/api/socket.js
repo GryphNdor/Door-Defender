@@ -55,7 +55,9 @@ const SocketHandler = (req, res) => {
         })
 
         parser.on('data', function (data) {
-          io.to(room).emit('updateDoor', { data: data })
+          io.to(room).emit('updateDoor')
+          whoArmed.push({ id: 'Security Door', entry: data, time: date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) })
+          io.to(room).emit('getDoorLog', whoArmed)
         });
       })
     })

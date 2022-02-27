@@ -1,5 +1,5 @@
 import { Server } from 'Socket.IO'
-import { SerialPort } from 'serialport'
+import SerialPort from 'serialport'
 
 const parsers = SerialPort.parsers;
 

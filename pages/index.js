@@ -23,8 +23,13 @@ export default function Home() {
 
   const sendMessage = async (e) => {
     console.log("calling method")
-    await fetch('/api/sendMessage')
-    sendMessage(phone, null)
+    await fetch('/api/sendMessage', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'text/plain',
+      },
+      body: phone
+    })
   }
 
   const getSocket = async () => {
@@ -124,7 +129,7 @@ export default function Home() {
                 <h3>Room #</h3>
                 <input style={{ padding: 10, marginBottom: 40 }} onChange={(e) => setNumber(e.target.value)} type="number" />
                 <h3>Phone #</h3>
-                <input style={{ padding: 10, marginBottom: 20 }} onChange={(e) => setPhone(e.target.value)} type="phone" />
+                <input style={{ padding: 10, marginBottom: 20 }} onChange={(e) => setPhone(e.target.value)} type="tel" />
               </form>
               <button style={{ backgroundColor: `hsla(248, 33%, 59%)` }} onClick={() => setLoggedIn(!loggedIn)} className={styles.pushable}>
                 <span className={styles.shadow}></span>

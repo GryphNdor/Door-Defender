@@ -3,18 +3,6 @@ import styles from '../styles/Home.module.css'
 import React, { useEffect, useState } from 'react'
 import io from 'Socket.IO-client'
 
-import { authToken, accountSid } from 'twiliothings.js'
-const client = require('twilio')(process.env.authToken, process.env.accountSid)
-
-// function sendAlertTextMessage(number) {
-//   client.messages.create({
-//     body: "{TESTING} Device has been armed",
-//     to: number,
-//     from: '+15715543828'
-//   }).then(message => console.log(message))
-//     .catch(error => console.log(error))
-// }
-
 let socket
 
 export default function Home() {
@@ -28,13 +16,13 @@ export default function Home() {
   const [loggedIn, setLoggedIn] = useState(false)
 
   const armSystem = () => {
-    // sendAlertTextMessage('+15713319730')
     socket.emit('armSystem')
   }
 
   const getSocket = async () => {
     await fetch('/api/socket')
     socket = io()
+    socket.emit('create', 'room')
     socket.on('connect', () => {
       console.log("connected!")
     })

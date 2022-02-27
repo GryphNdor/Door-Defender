@@ -2,6 +2,7 @@ import Head from 'next/head'
 import styles from '../styles/Home.module.css'
 import React, { useEffect, useState } from 'react'
 import io from 'Socket.IO-client'
+import { useAuth0 } from '@auth0/auth0-react'
 
 let socket
 
@@ -15,13 +16,13 @@ export default function Home() {
   const [doorlog, setDoorLog] = useState()
   const [loggedIn, setLoggedIn] = useState(false)
   const [phone, setPhone] = useState()
-
+  
   const armSystem = () => {
     socket.emit('armSystem')
   }
 
   const sendMessage = async (e) => {
-    print("calling method")
+    console.log("calling method")
     await fetch('/api/sendMessage')
     sendMessage(phone,)
   }

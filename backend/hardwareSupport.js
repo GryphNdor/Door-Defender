@@ -1,11 +1,12 @@
 var SerialPort = require('serialport');
+
 const parsers = SerialPort.parsers;
 
 const parser = new parsers.Readline({
     delimiter: '\r\n'
 });
 
-var port = new SerialPort('/dev/cu.usbserial-14110',{ 
+var port = new SerialPort('/dev/cu.usbserial-14110', {
     baudRate: 9600,
     dataBits: 8,
     parity: 'none',
@@ -15,6 +16,6 @@ var port = new SerialPort('/dev/cu.usbserial-14110',{
 
 port.pipe(parser);
 
-parser.on('data', function(data) {
+parser.on('data', function (data) {
     console.log(data);
 });

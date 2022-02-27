@@ -16,7 +16,7 @@ export default function Home() {
   const [doorlog, setDoorLog] = useState()
   const [loggedIn, setLoggedIn] = useState(false)
   const [phone, setPhone] = useState()
-  
+
   const armSystem = () => {
     socket.emit('armSystem')
   }
@@ -24,7 +24,7 @@ export default function Home() {
   const sendMessage = async (e) => {
     console.log("calling method")
     await fetch('/api/sendMessage')
-    sendMessage(phone,)
+    sendMessage(phone, null)
   }
 
   const getSocket = async () => {

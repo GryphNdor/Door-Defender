@@ -14,7 +14,7 @@ export default function home() {
           </h1>
         </Grid>
         <Grid item>
-          <Image width={100} height={100} src="/vercel.svg" />
+          <Image width={100} height={100} src="/image 1.svg" />
         </Grid>
       </Grid>
       {/* lolol it works bruh */}
@@ -37,7 +37,9 @@ export default function home() {
             </p>
           </div>
           <div>
-            <h4>Help</h4>
+            <Grid item>
+              <Image width={100} height={100} src="/door defender2 1.svg" />
+            </Grid>
           </div>
         </div>
       </section>

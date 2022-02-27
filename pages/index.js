@@ -7,7 +7,6 @@ import io from 'Socket.IO-client'
 let socket
 
 export default function Home() {
-  useEffect(() => getSocket(), [])
   const [id, setId] = useState()
   const [armed, setArmed] = useState()
   const [number, setNumber] = useState()
@@ -21,6 +20,11 @@ export default function Home() {
     socket.emit('armSystem')
   }
 
+  const handleLogin = () => {
+    setLoggedIn(!loggedIn)
+    getSocket()
+  }
+
   const sendMessage = async (e) => {
     console.log("calling method")
     await fetch('/api/sendMessage', {
@@ -32,10 +36,17 @@ export default function Home() {
     })
   }
 
+  const clearLogs = () => {
+    let confirm = window.confirm("Are you sure you want to clear log history?")
+    if (confirm && socket) {
+      socket.emit('clear')
+    }
+  }
+
   const getSocket = async () => {
     await fetch('/api/socket')
     socket = io()
-    socket.emit('create', 'room')
+    socket.emit('create', number)
     socket.on('connect', () => {
       console.log("connected!")
     })
@@ -43,7 +54,6 @@ export default function Home() {
       console.log(msg.data)
     })
     // console.log(number)
-    // socket.emit("create", number)
     socket.on('disconnect', () => {
       console.log(socket.id)
     })
@@ -98,7 +108,9 @@ export default function Home() {
               <div className={styles.grid} style={{ marginTop: 100 }}>
                 <button style={{
                   position: 'relative', left: 80, top: -120, borderRadius: 100, border: 'none', color: 'blue', padding: 5,
-                }}>Clear Logs</button>
+                }}
+                  onClick={() => clearLogs()}
+                >Clear Logs</button>
                 <div className={styles.card} style={{ overflowY: 'scroll' }}>
                   <h4>Door Log</h4>
                   <ul style={{ padding: 0, listStyleType: 'none' }}>
@@ -117,31 +129,25 @@ export default function Home() {
                   </ul>
                 </div>
 
-                <div className={styles.pushable} style={{ marginBottom: 100 }}>
-                  <button style={{
-                    position: 'relative', top: 240, borderRadius: 100, border: 'none', color: 'blue', padding: 5,
-                  }} onClick={() => sendMessage()}>Test Message</button>
-                </div>
-
                 <div className={styles.card} >
                   <h4>Users Online</h4>
                   <ul style={{ padding: 0, listStyleType: 'none' }}>
-                    {users.map((test, i) => <li key={i}>{test}</li>)}
+                    {users.map((test, i) => <li key={i}>{test.id}</li>)}
                   </ul>
                 </div>
               </div>
             </>
             :
-            <div>
+            <div style={{ outline: '1px solid', padding: 100 }}>
               <form id="form">
                 <h3>Name</h3>
                 <input style={{ padding: 10 }} type="text" />
                 <h3>Room #</h3>
-                <input style={{ padding: 10, marginBottom: 40 }} onChange={(e) => setNumber(e.target.value)} type="number" />
+                <input style={{ padding: 10 }} onChange={(e) => setNumber(e.target.value)} type="number" />
                 <h3>Phone #</h3>
-                <input style={{ padding: 10, marginBottom: 20 }} onChange={(e) => setPhone(e.target.value)} type="tel" />
+                <input style={{ padding: 10, marginBottom: 40 }} onChange={(e) => setPhone(e.target.value)} type="tel" />
               </form>
-              <button style={{ backgroundColor: `hsla(248, 33%, 59%)` }} onClick={() => setLoggedIn(!loggedIn)} className={styles.pushable}>
+              <button style={{ backgroundColor: `hsla(248, 33%, 59%)` }} onClick={() => handleLogin()} className={styles.pushable}>
                 <span className={styles.shadow}></span>
                 <span className={styles.edge}></span>
                 <span style={{ backgroundColor: 'hsla(248, 33%, 59%)' }} className={styles.front}>

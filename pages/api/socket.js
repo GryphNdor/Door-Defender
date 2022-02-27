@@ -21,7 +21,7 @@ port.pipe(parser);
 const SocketHandler = (req, res) => {
 
   let users = []
-  let armed = false
+  let armed = {}
   let whoArmed = []
 
   if (res.socket.server.io) {
@@ -35,22 +35,28 @@ const SocketHandler = (req, res) => {
       const id = socket.id
       socket.on('create', (room) => {
         socket.join(room)
+        armed[room] = false
         if (!users.includes(id)) {
-          users.push(id)
+          users.push({ id: id, room: room })
           socket.emit('updateId', id)
-          socket.emit('armedSystem', armed)
-          io.to(room).emit('getDoorLog', whoArmed)
-          io.to(room).emit('getUsers', users)
+          socket.emit('armedSystem', armed[room])
+          io.to(room).emit('getDoorLog', whoArmed.filter((items) => items.room === room))
+          io.to(room).emit('getUsers', users.filter((items) => items.room === room))
         }
+        socket.on('clear', () => {
+          whoArmed = whoArmed.filter((items) => items.room !== room)
+          io.to(room).emit('getDoorLog', [])
+        })
         socket.on('armSystem', () => {
           let date = new Date()
-          whoArmed.push({ id: socket.id, armed: armed, time: date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) })
-          armed = !armed
-          io.to(room).emit('getDoorLog', whoArmed)
-          io.to(room).emit('armedSystem', armed)
+          whoArmed.push({ id: socket.id, room: room, armed: armed[room], time: date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) })
+          armed[room] = !armed[room]
+          console.log(armed)
+          io.to(room).emit('getDoorLog', whoArmed.filter((items) => items.room === room))
+          io.to(room).emit('armedSystem', armed[room])
         })
         socket.on('disconnect', () => {
-          users = users.filter((items) => items !== socket.id)
+          users = users.filter((items) => items.room === room && items.id !== socket.id)
           io.to(room).emit('getUsers', users)
         })
 

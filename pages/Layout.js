@@ -9,19 +9,18 @@ export default function Layout({ children }) {
         <Toolbar>
 
           <Image width={50} height={50} src="/logo.svg" />
-          <Typography varient="h1" component="div" style={{ fontWeight: 700 }} sx={{ flexGrow: 1 }}>
+          <Typography varient="h1" component="div" style={{ fontWeight: 700 }} sx={{ flexGrow: 1, mr: 2 }}>
 
             Door Defender
           </Typography>
 
-          <Typography varient="h1" component="div" style={{ fontWeight: 500, paddingLeft: 1000 }} sx={{ flexGrow: 1 }}>
+          <Typography sx={{ mr: 2 }}>
             Our Vision
           </Typography>
 
-          <Typography varient="h1" component="div" style={{ fontWeight: 500 }} sx={{ flexGrow: 1 }}>
+          <Typography sx={{ mr: 2 }}>
             Our Product
           </Typography>
-
 
         </Toolbar>
       </AppBar>

@@ -11,7 +11,7 @@ export default function sendMessage(req, res) {
     .create({
       body: "A user has opened your door",
       from: '+15715543828',
-      to: '+15713319730',
+      to: phone,
     }).then((message) => console.log(message.body))
     .catch(); 
 }

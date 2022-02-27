@@ -23,7 +23,7 @@ export default function Home() {
   const sendMessage = async (e) => {
     print("calling method")
     await fetch('/api/sendMessage')
-    sendMessage(phone,  )
+    sendMessage(phone,)
   }
 
   const getSocket = async () => {
@@ -32,6 +32,9 @@ export default function Home() {
     socket.emit('create', 'room')
     socket.on('connect', () => {
       console.log("connected!")
+    })
+    socket.on('updateDoor', (msg) => {
+      console.log(msg.data)
     })
     // console.log(number)
     // socket.emit("create", number)
@@ -98,10 +101,10 @@ export default function Home() {
                   </ul>
                 </div>
 
-                <div className = {styles.pushable} style={{marginBottom: 100}}>
-                  <button style ={{
-                    position: 'relative',  top: 240, borderRadius: 100, border: 'none', color: 'blue', padding:5,
-                  }} onClick = {() => sendMessage()}>Test Message</button>
+                <div className={styles.pushable} style={{ marginBottom: 100 }}>
+                  <button style={{
+                    position: 'relative', top: 240, borderRadius: 100, border: 'none', color: 'blue', padding: 5,
+                  }} onClick={() => sendMessage()}>Test Message</button>
                 </div>
 
                 <div className={styles.card} >
@@ -120,9 +123,9 @@ export default function Home() {
                 <h3>Room #</h3>
                 <input style={{ padding: 10, marginBottom: 40 }} onChange={(e) => setNumber(e.target.value)} type="number" />
                 <h3>Phone #</h3>
-                <input style = {{padding: 10, marginBottom:20}} onChange ={(e) => setPhone(e.target.value)} type="phone" />
+                <input style={{ padding: 10, marginBottom: 20 }} onChange={(e) => setPhone(e.target.value)} type="phone" />
               </form>
-              <button style={{ backgroundColor: `hsla(248, 33%, 59%)` }} onClick={() => setLoggedIn(!loggedIn) } className={styles.pushable}>
+              <button style={{ backgroundColor: `hsla(248, 33%, 59%)` }} onClick={() => setLoggedIn(!loggedIn)} className={styles.pushable}>
                 <span className={styles.shadow}></span>
                 <span className={styles.edge}></span>
                 <span style={{ backgroundColor: 'hsla(248, 33%, 59%)' }} className={styles.front}>

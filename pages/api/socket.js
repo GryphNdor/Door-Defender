@@ -1,4 +1,22 @@
 import { Server } from 'Socket.IO'
+import { SerialPort } from 'serialport'
+
+const parsers = SerialPort.parsers;
+
+const parser = new parsers.Readline({
+  delimiter: '\r\n'
+});
+
+var port = new SerialPort('/dev/cu.usbserial-14110', {
+  baudRate: 9600,
+  dataBits: 8,
+  parity: 'none',
+  stopBits: 1,
+  flowControl: false
+});
+
+port.pipe(parser);
+
 
 const SocketHandler = (req, res) => {
 
@@ -35,6 +53,10 @@ const SocketHandler = (req, res) => {
           users = users.filter((items) => items !== socket.id)
           io.to(room).emit('getUsers', users)
         })
+
+        parser.on('data', function (data) {
+          io.to(room).emit('updateDoor', { data: data })
+        });
       })
     })
   }

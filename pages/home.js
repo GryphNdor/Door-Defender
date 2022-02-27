@@ -2,7 +2,7 @@ import { Grid, Button } from '@mui/material'
 import React from 'react'
 import Image from 'next/image'
 import styles from '../styles/Index.module.css'
-import { style } from '@mui/system'
+import Link from 'next/link'
 
 export default function home() {
   return (
@@ -10,7 +10,7 @@ export default function home() {
       <Grid container alignItems="center" justifyContent="space-evenly" style={{ backgroundColor: '#384270', color: 'white', height: '100vh' }}>
         <Grid item>
           <h1 style={{ fontSize: '6em', width: 800 }}>
-            Keeping your house safe and secure
+            Keeping your room safe and secure
           </h1>
         </Grid>
         <Grid item>
@@ -51,6 +51,11 @@ export default function home() {
             Sed nec donec in senectus Massa pretium pretium phasellus lacus
             Adipiscing gravida dui rhoncus ac eget elementum a Urna convallis vivamus morbi vulputate lobortis
           </h3>
+          <Button variant="contained">
+            <Link href="/">
+              View Product
+            </Link>
+          </Button>
         </div>
         <div>
           <h4>Help</h4>

@@ -1,5 +1,6 @@
 import React from 'react'
 import { AppBar, Toolbar, Typography, Container } from '@mui/material'
+import Image from 'next/image'
 
 export default function Layout({ children }) {
   return (
@@ -7,7 +8,8 @@ export default function Layout({ children }) {
       <AppBar style={{ backgroundColor: 'white', color: 'black' }}>
         <Toolbar>
 
-          <Typography varient="h1" component="div" style={{ fontWeight: 700, paddingLeft: 100 }} sx={{ flexGrow: 1 }}>
+          <Image width={50} height={50} src="/logo.svg" />
+          <Typography varient="h1" component="div" style={{ fontWeight: 700 }} sx={{ flexGrow: 1 }}>
 
             Door Defender
           </Typography>
@@ -19,6 +21,7 @@ export default function Layout({ children }) {
           <Typography varient="h1" component="div" style={{ fontWeight: 500 }} sx={{ flexGrow: 1 }}>
             Our Product
           </Typography>
+
 
         </Toolbar>
       </AppBar>

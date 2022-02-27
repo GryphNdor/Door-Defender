@@ -14,9 +14,16 @@ export default function Home() {
   const [users, setUsers] = useState([])
   const [doorlog, setDoorLog] = useState()
   const [loggedIn, setLoggedIn] = useState(false)
+  const [phone, setPhone] = useState()
 
   const armSystem = () => {
     socket.emit('armSystem')
+  }
+
+  const sendMessage = async (e) => {
+    print("calling method")
+    await fetch('/api/sendMessage')
+    sendMessage(phone,  )
   }
 
   const getSocket = async () => {
@@ -91,6 +98,12 @@ export default function Home() {
                   </ul>
                 </div>
 
+                <div className = {styles.pushable} style={{marginBottom: 100}}>
+                  <button style ={{
+                    position: 'relative',  top: 240, borderRadius: 100, border: 'none', color: 'blue', padding:5,
+                  }} onClick = {() => sendMessage()}>Test Message</button>
+                </div>
+
                 <div className={styles.card} >
                   <h4>Users Online</h4>
                   <ul style={{ padding: 0, listStyleType: 'none' }}>
@@ -106,8 +119,10 @@ export default function Home() {
                 <input style={{ padding: 10 }} type="text" />
                 <h3>Room #</h3>
                 <input style={{ padding: 10, marginBottom: 40 }} onChange={(e) => setNumber(e.target.value)} type="number" />
+                <h3>Phone #</h3>
+                <input style = {{padding: 10, marginBottom:20}} onChange ={(e) => setPhone(e.target.value)} type="phone" />
               </form>
-              <button style={{ backgroundColor: `hsla(248, 33%, 59%)` }} onClick={() => setLoggedIn(!loggedIn)} className={styles.pushable}>
+              <button style={{ backgroundColor: `hsla(248, 33%, 59%)` }} onClick={() => setLoggedIn(!loggedIn) } className={styles.pushable}>
                 <span className={styles.shadow}></span>
                 <span className={styles.edge}></span>
                 <span style={{ backgroundColor: 'hsla(248, 33%, 59%)' }} className={styles.front}>

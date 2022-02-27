@@ -3,30 +3,32 @@ import styles from '../styles/Home.module.css'
 import React, { useEffect, useState } from 'react'
 import io from 'Socket.IO-client'
 
-import auth, { authToken, accountSid } from'twiliothings.js'
+import { authToken, accountSid } from 'twiliothings.js'
+const client = require('twilio')(process.env.authToken, process.env.accountSid)
+
+// function sendAlertTextMessage(number) {
+//   client.messages.create({
+//     body: "{TESTING} Device has been armed",
+//     to: number,
+//     from: '+15715543828'
+//   }).then(message => console.log(message))
+//     .catch(error => console.log(error))
+// }
+
 let socket
-const client = require('twilio')(auth.authToken, auth.accountSid)
-
-function sendAlertTextMessage(number){
-  client.messages.create({
-    body: "{TESTING} Device has been armed",
-    to: number,
-    from: '+15715543828'
-  }).then(message => console.log(message))
-  .catch(error => console.log(error))
-}
-
 
 export default function Home() {
   useEffect(() => getSocket(), [])
   const [id, setId] = useState()
   const [armed, setArmed] = useState()
+  const [number, setNumber] = useState()
+  const [name, setName] = useState()
   const [users, setUsers] = useState([])
   const [doorlog, setDoorLog] = useState()
   const [loggedIn, setLoggedIn] = useState(false)
 
   const armSystem = () => {
-    sendAlertTextMessage('+15713319730')
+    // sendAlertTextMessage('+15713319730')
     socket.emit('armSystem')
   }
 
@@ -36,6 +38,8 @@ export default function Home() {
     socket.on('connect', () => {
       console.log("connected!")
     })
+    // console.log(number)
+    // socket.emit("create", number)
     socket.on('disconnect', () => {
       console.log(socket.id)
     })
@@ -113,7 +117,7 @@ export default function Home() {
                 <h3>Name</h3>
                 <input style={{ padding: 10 }} type="text" />
                 <h3>Room #</h3>
-                <input style={{ padding: 10, marginBottom: 40 }} type="number" />
+                <input style={{ padding: 10, marginBottom: 40 }} onChange={(e) => setNumber(e.target.value)} type="number" />
               </form>
               <button style={{ backgroundColor: `hsla(248, 33%, 59%)` }} onClick={() => setLoggedIn(!loggedIn)} className={styles.pushable}>
                 <span className={styles.shadow}></span>

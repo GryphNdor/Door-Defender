@@ -2,9 +2,27 @@ import Head from 'next/head'
 import styles from '../styles/Home.module.css'
 import React, { useEffect, useState } from 'react'
 import io from 'Socket.IO-client'
+import { useUser } from '@auth0/nextjs-auth0';
+
 // import { useAuth0 } from '@auth0/auth0-react'
 
 let socket
+
+// export default () => {
+//   const { user, error, isLoading } = useUser();
+
+//   if (isLoading) return <div>Loading...</div>;
+//   if (error) return <div>{error.message}</div>;
+
+//   if (user) {
+//     return (
+//       <div>
+//         Welcome {user.name}! <a href="/api/auth/logout">Logout</a>
+//       </div>
+//     );
+//   }
+//   return <a href="/api/auth/login">Login</a>;
+// };
 
 export default function Home() {
   const [id, setId] = useState()

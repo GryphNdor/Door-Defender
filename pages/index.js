@@ -3,6 +3,7 @@ import styles from '../styles/Home.module.css'
 import React, { useEffect, useState } from 'react'
 import io from 'Socket.IO-client'
 import { useUser } from '@auth0/nextjs-auth0';
+import { withPageAuthRequired } from '@auth0/nextjs-auth0';
 
 // import { useAuth0 } from '@auth0/auth0-react'
 
@@ -67,9 +68,6 @@ export default function Home() {
     socket.emit('create', number)
     socket.on('connect', () => {
       console.log("connected!")
-    })
-    socket.on('updateDoor', (msg) => {
-      console.log(msg.data)
     })
     // console.log(number)
     socket.on('disconnect', () => {
@@ -136,7 +134,7 @@ export default function Home() {
                       doorlog?.map((test, i) => {
                         return test.id === "Security Door" ?
                           <li key={i} style={{ marginBottom: 10 }}>
-                            Door has been {test.data} at {test.time}
+                            Door has been {test.entry} at {test.time}
                           </li>
                           :
                           <li key={i} style={{ marginBottom: 10 }}>
@@ -178,3 +176,5 @@ export default function Home() {
     </div >
   )
 }
+
+export const getServerSideProps = withPageAuthRequired();

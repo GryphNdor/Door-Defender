@@ -107,7 +107,7 @@ export default function Home() {
         {
           loggedIn ?
             <>
-              <h1>{id}</h1>
+              <h1>{user.name}</h1>
               <button style={{ backgroundColor: `${armed ? 'hsl(340deg 100% 32%)' : 'green'}` }} onClick={() => armSystem()} className={styles.pushable}>
                 <span className={styles.shadow}></span>
                 <span className={styles.edge}></span>

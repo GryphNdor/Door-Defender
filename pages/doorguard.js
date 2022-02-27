@@ -1,7 +1,7 @@
 import Head from 'next/head'
 import styles from '../styles/Home.module.css'
 import React, { useEffect, useState } from 'react'
-import io from 'Socket.IO-client'
+import { io } from 'socket.io-client'
 import { useUser } from '@auth0/nextjs-auth0';
 import { withPageAuthRequired } from '@auth0/nextjs-auth0';
 
@@ -46,7 +46,7 @@ export default function Home() {
   }
 
   const sendMessage = async (armed) => {
-    if(armed){
+    if (armed) {
       console.log("armed")
     }
     console.log("calling method")
@@ -106,11 +106,11 @@ export default function Home() {
           loggedIn ?
             <>
               <h1>{user.name}</h1>
-              <button style={{ backgroundColor: `${armed ? 'green' :  'hsl(340deg 100% 32%)'  }` }}
-              onClick={() => armSystem()} className={styles.pushable}>
+              <button style={{ backgroundColor: `${armed ? 'green' : 'hsl(340deg 100% 32%)'}` }}
+                onClick={() => armSystem()} className={styles.pushable}>
                 <span className={styles.shadow}></span>
                 <span className={styles.edge}></span>
-                <span style={{ backgroundColor: `${armed ? 'hsl(119deg 100% 32%)'  : 'red'   }` }} className={styles.front}>
+                <span style={{ backgroundColor: `${armed ? 'hsl(119deg 100% 32%)' : 'red'}` }} className={styles.front}>
                   {armed ? 'Disarm System' : 'Arm System'}
                 </span>
               </button>
@@ -140,7 +140,7 @@ export default function Home() {
                           </li>
                           :
                           <li key={i} style={{ marginBottom: 10 }}>
-                            System <span>{test.armed ? <b>disarmed</b> : <b>armed</b> }</span> by {test.id} ({test.time})
+                            System <span>{test.armed ? <b>disarmed</b> : <b>armed</b>}</span> by {test.id} ({test.time})
                           </li>
                       })
                     }

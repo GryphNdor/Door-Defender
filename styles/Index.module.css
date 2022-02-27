@@ -24,3 +24,7 @@
   align-items: center;
   /* margin-top: 50px auto; */
 }
+
+.rounded{
+  border-radius: 20px;
+}

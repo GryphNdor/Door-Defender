@@ -27,7 +27,7 @@ let socket
 
 export default function Home() {
   const [id, setId] = useState()
-  const [armed, setArmed] = useState()
+  const [armed, setArmed] = useState(false)
   const [number, setNumber] = useState()
   const [name, setName] = useState()
   const [users, setUsers] = useState([])
@@ -45,7 +45,10 @@ export default function Home() {
     getSocket()
   }
 
-  const sendMessage = async (e) => {
+  const sendMessage = async (armed) => {
+    if(armed){
+      console.log("armed")
+    }
     console.log("calling method")
     await fetch('/api/sendMessage', {
       method: 'POST',
@@ -86,12 +89,9 @@ export default function Home() {
       setUsers(msg)
     })
     socket.on('getDoorLog', (msg) => {
-      // console.log(msg)
-      if (msg.id === 'Security Door') {
-        sendMessage()
-      }
       setDoorLog(msg)
     })
+    socket.on('alertIntruder', () => sendMessage())
   }
 
   return (
@@ -106,11 +106,12 @@ export default function Home() {
           loggedIn ?
             <>
               <h1>{user.name}</h1>
-              <button style={{ backgroundColor: `${armed ? 'hsl(340deg 100% 32%)' : 'green'}` }} onClick={() => armSystem()} className={styles.pushable}>
+              <button style={{ backgroundColor: `${armed ? 'green' :  'hsl(340deg 100% 32%)'  }` }}
+              onClick={() => armSystem()} className={styles.pushable}>
                 <span className={styles.shadow}></span>
                 <span className={styles.edge}></span>
-                <span style={{ backgroundColor: `${armed ? 'red' : 'hsl(119deg 100% 32%)'}` }} className={styles.front}>
-                  {armed ? 'Arm System' : 'Disarm System'}
+                <span style={{ backgroundColor: `${armed ? 'hsl(119deg 100% 32%)'  : 'red'   }` }} className={styles.front}>
+                  {armed ? 'Disarm System' : 'Arm System'}
                 </span>
               </button>
 
@@ -139,7 +140,7 @@ export default function Home() {
                           </li>
                           :
                           <li key={i} style={{ marginBottom: 10 }}>
-                            System <span>{test.armed ? <b>armed</b> : <b>disarmed</b>}</span> by {test.id} ({test.time})
+                            System <span>{test.armed ? <b>disarmed</b> : <b>armed</b> }</span> by {test.id} ({test.time})
                           </li>
                       })
                     }

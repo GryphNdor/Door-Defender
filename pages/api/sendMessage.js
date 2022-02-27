@@ -20,6 +20,6 @@ export default function sendMessage(req, res) {
 
       res.status(500)
     );
-
+    console.log("sent message to " + req.body);
 
 }

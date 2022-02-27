@@ -67,8 +67,13 @@ const SocketHandler = (req, res) => {
 
         parser.on('data', function (data) {
           let date = new Date()
-          whoArmed.push({ id: 'Security Door', room: room, entry: data, time: date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) })
+          whoArmed.push({ id: 'Security Door', room: room, armed:armed[room], entry: data, time: date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) })
           io.to(room).emit('getDoorLog', whoArmed.filter((items) => items.room === room))
+          console.log(armed[room])
+          if(armed[room] === true){
+            console.log("here")
+            io.to(room).emit('alertIntruder', armed[room])
+          }
           console.log(data);
         });
       })

@@ -36,20 +36,25 @@ const SocketHandler = (req, res) => {
       socket.on('create', (room) => {
         socket.join(room)
         armed[room] = false
-        if (!users.includes(id)) {
-          users.push({ id: id, room: room })
-          socket.emit('updateId', id)
-          socket.emit('armedSystem', armed[room])
-          io.to(room).emit('getDoorLog', whoArmed.filter((items) => items.room === room))
-          io.to(room).emit('getUsers', users.filter((items) => items.room === room))
-        }
+        socket.on('setNick', (nick) => {
+          socket.nickname = nick
+          if (!users.includes(nick)) {
+            users.push({ id: id, name: socket.nickname, room: room })
+            console.log(users)
+            socket.emit('updateId', socket.nickname)
+            socket.emit('armedSystem', armed[room])
+            io.to(room).emit('getDoorLog', whoArmed.filter((items) => items.room === room))
+            io.to(room).emit('getUsers', users.filter((items) => items.room === room))
+          }
+
+        })
         socket.on('clear', () => {
           whoArmed = whoArmed.filter((items) => items.room !== room)
           io.to(room).emit('getDoorLog', [])
         })
         socket.on('armSystem', () => {
           let date = new Date()
-          whoArmed.push({ id: socket.id, room: room, armed: armed[room], time: date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) })
+          whoArmed.push({ id: socket.nickname, room: room, armed: armed[room], time: date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) })
           armed[room] = !armed[room]
           console.log(armed)
           io.to(room).emit('getDoorLog', whoArmed.filter((items) => items.room === room))
@@ -63,7 +68,7 @@ const SocketHandler = (req, res) => {
         parser.on('data', function (data) {
           let date = new Date()
           //io.to(room).emit('updateDoor')
-          whoArmed.push({ id: 'Security Door', room:room, entry: data, time: date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) })
+          whoArmed.push({ id: 'Security Door', room: room, entry: data, time: date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) })
           io.to(room).emit('getDoorLog', whoArmed.filter((items) => items.room === room))
           console.log(data);
         });

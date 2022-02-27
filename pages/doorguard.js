@@ -34,6 +34,7 @@ export default function Home() {
   const [doorlog, setDoorLog] = useState()
   const [loggedIn, setLoggedIn] = useState(false)
   const [phone, setPhone] = useState()
+  const { user } = useUser()
 
   const armSystem = () => {
     socket.emit('armSystem')
@@ -66,6 +67,8 @@ export default function Home() {
     await fetch('/api/socket')
     socket = io()
     socket.emit('create', number)
+
+    socket.emit('setNick', user.name)
     socket.on('connect', () => {
       console.log("connected!")
     })
@@ -148,17 +151,16 @@ export default function Home() {
                 <div className={styles.card} >
                   <h4>Users Online</h4>
                   <ul style={{ padding: 0, listStyleType: 'none' }}>
-                    {users.map((test, i) => <li key={i}>{test.id}</li>)}
+                    {users.map((test, i) => <li key={i}>{test.name}</li>)}
                   </ul>
                 </div>
               </div>
             </>
             :
-            <div style={{ outline: '1px solid', padding: 100 }}>
+            <div style={{ outline: '1px solid', padding: 100, display: 'flex', alignItems: 'center', justifyContent: 'center', flexDirection: 'column' }}>
+              <h1>Login to Device</h1>
               <form id="form">
-                <h3>Name</h3>
-                <input style={{ padding: 10 }} type="text" />
-                <h3>Room #</h3>
+                <h3>Device #</h3>
                 <input style={{ padding: 10 }} onChange={(e) => setNumber(e.target.value)} type="number" />
                 <h3>Phone #</h3>
                 <input style={{ padding: 10, marginBottom: 40 }} onChange={(e) => setPhone(e.target.value)} type="tel" />

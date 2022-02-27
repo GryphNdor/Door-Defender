@@ -1,15 +1,17 @@
-import { Grid, Button } from '@mui/material'
+import { Grid, Button, useMediaQuery } from '@mui/material'
 import React from 'react'
 import Image from 'next/image'
 import styles from '../styles/Index.module.css'
 import Link from 'next/link'
 
 export default function home() {
+  const small = useMediaQuery('(max-width:600px)')
+
   return (
     <div>
-      <Grid container alignItems="center" justifyContent="space-evenly" style={{ backgroundColor: '#384270', color: 'white', height: '100vh' }}>
+      <Grid container alignItems="center" flexDirection={small ? "column" : "row"} justifyContent="space-evenly" style={{ backgroundColor: '#384270', color: 'white', height: '100vh' }}>
         <Grid item>
-          <h1 style={{ fontSize: '6em', width: 800 }}>
+          <h1 style={{ fontSize: small ? '3em' : '6em', width: small ? 400 : 800 }}>
             Keeping your room safe and secure
           </h1>
         </Grid>
@@ -24,7 +26,6 @@ export default function home() {
           justifyContent: 'space-around',
           alignItems: 'center'
         }}>
-
           <div style={{ display: 'flex', flexDirection: 'column' }}>
             <h1 style={{ fontSize: '4em', width: 592, color: 'white', padding: 0, margin: 0 }}>
               Our Vision
@@ -54,7 +55,7 @@ export default function home() {
             Adipiscing gravida dui rhoncus ac eget elementum a Urna convallis vivamus morbi vulputate lobortis
           </h3>
           <Button variant="contained">
-            <Link href="/">
+            <Link href="/doorguard">
               View Product
             </Link>
           </Button>
